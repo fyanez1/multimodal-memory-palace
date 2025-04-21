@@ -26,6 +26,7 @@
 		BAFB9FEA296C4A2600F9165E /* toy_car.usdz in Resources */ = {isa = PBXBuildFile; fileRef = BAFB9FE9296C4A2600F9165E /* toy_car.usdz */; };
 		BAFB9FEC296C4F4A00F9165E /* carSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BAFB9FEB296C4F4A00F9165E /* carSound.mp3 */; };
 		E378371C2DB5F2D800B7E478 /* LLM_calls.swift in Sources */ = {isa = PBXBuildFile; fileRef = E378371B2DB5F2C600B7E478 /* LLM_calls.swift */; };
+		E37837202DB6010A00B7E478 /* ModelSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E378371F2DB6010800B7E478 /* ModelSelection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		BAFB9FE9296C4A2600F9165E /* toy_car.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = toy_car.usdz; sourceTree = "<group>"; };
 		BAFB9FEB296C4F4A00F9165E /* carSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = carSound.mp3; sourceTree = "<group>"; };
 		E378371B2DB5F2C600B7E478 /* LLM_calls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLM_calls.swift; sourceTree = "<group>"; };
+		E378371F2DB6010800B7E478 /* ModelSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSelection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +148,7 @@
 		BAFB9FD6296B9EBC00F9165E /* ModelAssets */ = {
 			isa = PBXGroup;
 			children = (
+				E378371F2DB6010800B7E478 /* ModelSelection.swift */,
 				BAFB9FD9296B9ED600F9165E /* toy_biplane.usdz */,
 				BAFB9FD7296B9ECE00F9165E /* toy_robot_vintage.usdz */,
 				BAFB9FE9296C4A2600F9165E /* toy_car.usdz */,
@@ -272,6 +275,7 @@
 			files = (
 				BAFB9FDC296BF65900F9165E /* AppConfig.swift in Sources */,
 				BAFB9FC9296A816500F9165E /* ARViewController.swift in Sources */,
+				E37837202DB6010A00B7E478 /* ModelSelection.swift in Sources */,
 				BAFB9FB8296A74CA00F9165E /* ContentView.swift in Sources */,
 				E378371C2DB5F2D800B7E478 /* LLM_calls.swift in Sources */,
 				BAFB9FCC296A82A600F9165E /* Log.swift in Sources */,

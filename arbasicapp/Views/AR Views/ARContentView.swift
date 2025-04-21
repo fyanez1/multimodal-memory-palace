@@ -10,6 +10,7 @@ import SwiftUI
 struct ARContentView: View {
     @Environment(\.dismiss) var dismiss
     @State private var sceneScaleIndex = 1
+    @State private var selectedModelIndex: Int? = nil
 
     private var sceneScale: SIMD3<Float> {
         AppConfig.sceneScales[sceneScaleIndex]
@@ -43,6 +44,35 @@ struct ARContentView: View {
                                 .font(.system(size: 50))
                                 .padding()
                         })
+                    }
+                    
+                    HStack {
+                        Button("Car") {
+                            selectedModelIndex = 2
+                            ModelSelection.shared.selectedIndex = 2
+                        }
+                        .padding()
+                        .background(.blue)
+                        .cornerRadius(8)
+                        .foregroundColor(.white)
+
+                        Button("Plane") {
+                            selectedModelIndex = 1
+                            ModelSelection.shared.selectedIndex = 1
+                        }
+                        .padding()
+                        .background(.green)
+                        .cornerRadius(8)
+                        .foregroundColor(.white)
+
+                        Button("Robot") {
+                            selectedModelIndex = 0
+                            ModelSelection.shared.selectedIndex = 0
+                        }
+                        .padding()
+                        .background(.red)
+                        .cornerRadius(8)
+                        .foregroundColor(.white)
                     }
                 }
                 .padding(40)

@@ -132,48 +132,139 @@ extension ARViewController {
         if gesture.state == .ended {
             let location = gesture.location(in: arView)
 
-            #if !targetEnvironment(simulator)
-            if !ProcessInfo.processInfo.isiOSAppOnMac {
-                // running on iOS or iPadOS
-                guard let query = arView.makeRaycastQuery(from: location,
-                                                          allowing: .estimatedPlane,
-                                                          alignment: .any) else {
-                    return
-                }
-                let raycastResults = arView.session.raycast(query)
-                if let result = raycastResults.first {
+            guard let query = arView.makeRaycastQuery(from: location,
+                                                      allowing: .estimatedPlane,
+                                                      alignment: .any) else {
+                return
+            }
 
-                    // [Note] result.anchor: ARAnchor? can not be casted to ARPlaneAnchor
-                    // - if query's allowing is .existingPlaneInfinit, result.anchor will be ARPlaneAnchor
-                    // - if query's allowing is .estimatedPlane, resutl.anchor will be nil
+            let raycastResults = arView.session.raycast(query)
 
-                    let anchorEntity = AnchorEntity(raycastResult: result)
-                    placeARScene(anchorEntity)
-                } else {
-                    // do nothing (no raycast result)
-                }
-            } else {
-                // running on macOS
+            if let result = raycastResults.first {
+                // Each tap creates a new anchor where the user touched
+                let newAnchor = AnchorEntity(raycastResult: result)
+                arView.scene.addAnchor(newAnchor)
+
+                // If this is the first tap, set up the scene and frame loop
                 if arScene == nil {
-                    let anchorEntity = AnchorEntity(world: AppConfig.simModelTransform)
-                    placeARScene(anchorEntity)
-                } else {
-                    // do nothing (already ARScene exists)
+                    arScene = ARScene(anchorEntity: newAnchor)
+                    arScene?.setScale(sceneScale)
+                    startFrameLoop()
+                }
+
+                // Place model at this new anchor
+                if let index = ModelSelection.shared.selectedIndex {
+                    let modelSpec = ARSceneSpec.models[index]
+
+                    Entity.loadAsync(named: modelSpec.fileName)
+                        .sink(receiveCompletion: { _ in },
+                              receiveValue: { entity in
+                                  newAnchor.addChild(entity)
+
+                                  entity.availableAnimations.forEach {
+                                      entity.playAnimation($0.repeat(), transitionDuration: 0, startsPaused: false)
+                                  }
+
+                                  if let soundFileName = modelSpec.soundFileName {
+                                      AudioFileResource.loadAsync(named: soundFileName,
+                                                                  inputMode: .spatial,
+                                                                  loadingStrategy: .preload,
+                                                                  shouldLoop: true)
+                                          .sink(receiveCompletion: { _ in },
+                                                receiveValue: { audio in
+                                                    let controller = entity.prepareAudio(audio)
+                                                    controller.gain = -6
+                                                    controller.play()
+                                                })
+                                          .store(in: &self.arScene!.loadingSubscriptions)
+                                  }
+
+                                  let animatingModel = AnimatingModel(entity: entity, animationParam: modelSpec.animationParam)
+                                  self.arScene?.addAnimatingModel(animatingModel)
+                              })
+                        .store(in: &self.arScene!.loadingSubscriptions)
                 }
             }
-            #else
-            // running in the Simulator
-            if arScene == nil {
-                let anchorEntity = AnchorEntity(world: AppConfig.simModelTransform)
-                placeARScene(anchorEntity)
-            } else {
-                // do nothing (already ARScene exists)
-            }
-            #endif
-        } else {
-            // do nothing (the gesture is not ended yet)
         }
     }
+
+//    @objc private func tapped(_ gesture: UITapGestureRecognizer) {
+//        if gesture.state == .ended {
+//            let location = gesture.location(in: arView)
+//
+//            guard let query = arView.makeRaycastQuery(from: location,
+//                                                      allowing: .estimatedPlane,
+//                                                      alignment: .any) else {
+//                return
+//            }
+//
+//            let raycastResults = arView.session.raycast(query)
+//
+//            if let result = raycastResults.first {
+//                let anchor = AnchorEntity(raycastResult: result)
+//
+//                if arScene == nil {
+//                    // First tap: create the ARScene and anchor it
+//                    arView.scene.addAnchor(anchor)
+//                    arScene = ARScene(anchorEntity: anchor)
+//                    arScene?.setScale(sceneScale)
+//                    startFrameLoop()
+//                }
+//
+//                // Always place selected model if one is selected
+//                if let index = ModelSelection.shared.selectedIndex {
+//                    arScene?.loadModel(at: index)
+//                }
+//            }
+//        }
+//    }
+
+//    @objc private func tapped(_ gesture: UITapGestureRecognizer) {
+//        if gesture.state == .ended {
+//            let location = gesture.location(in: arView)
+//
+//            #if !targetEnvironment(simulator)
+//            if !ProcessInfo.processInfo.isiOSAppOnMac {
+//                // running on iOS or iPadOS
+//                guard let query = arView.makeRaycastQuery(from: location,
+//                                                          allowing: .estimatedPlane,
+//                                                          alignment: .any) else {
+//                    return
+//                }
+//                let raycastResults = arView.session.raycast(query)
+//                if let result = raycastResults.first {
+//
+//                    // [Note] result.anchor: ARAnchor? can not be casted to ARPlaneAnchor
+//                    // - if query's allowing is .existingPlaneInfinit, result.anchor will be ARPlaneAnchor
+//                    // - if query's allowing is .estimatedPlane, resutl.anchor will be nil
+//
+//                    let anchorEntity = AnchorEntity(raycastResult: result)
+//                    placeARScene(anchorEntity)
+//                } else {
+//                    // do nothing (no raycast result)
+//                }
+//            } else {
+//                // running on macOS
+//                if arScene == nil {
+//                    let anchorEntity = AnchorEntity(world: AppConfig.simModelTransform)
+//                    placeARScene(anchorEntity)
+//                } else {
+//                    // do nothing (already ARScene exists)
+//                }
+//            }
+//            #else
+//            // running in the Simulator
+//            if arScene == nil {
+//                let anchorEntity = AnchorEntity(world: AppConfig.simModelTransform)
+//                placeARScene(anchorEntity)
+//            } else {
+//                // do nothing (already ARScene exists)
+//            }
+//            #endif
+//        } else {
+//            // do nothing (the gesture is not ended yet)
+//        }
+//    }
 
     private func placeARScene(_ anchorEntity: AnchorEntity) {
         if arScene != nil {
@@ -184,7 +275,10 @@ extension ARViewController {
 
         arScene = ARScene(anchorEntity: anchorEntity)
         arScene?.setScale(sceneScale)
-        arScene?.loadModels()
+//        arScene?.loadModels()
+        if let index = ModelSelection.shared.selectedIndex {
+            arScene?.loadModel(at: index)
+        }
         startFrameLoop()
     }
 
