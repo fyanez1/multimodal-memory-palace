@@ -19,13 +19,13 @@ struct ContentView: View {
             VStack {
                 Spacer()
 
-                Text("AR Basic App")
+                Text("Multimodal Memory Palace")
                     .font(.title)
 
                 Spacer()
 
                 Button(action: showAR) {
-                    Text("Show AR")
+                    Text("Show Memory Palace")
                         .font(.title2)
                         .padding(.horizontal, 40)
                         .padding(.vertical, 12)
