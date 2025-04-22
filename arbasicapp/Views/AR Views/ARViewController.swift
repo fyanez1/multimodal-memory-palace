@@ -27,6 +27,29 @@ class ARViewController: UIViewController {
     deinit {
         // debugLog("AR: ARVC: deinit() was called.")
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        let touchLocation = touch.location(in: self.view)
+        
+        let circleSize: CGFloat = 30
+        let circleView = UIView(frame: CGRect(x: touchLocation.x - circleSize / 2,
+                                              y: touchLocation.y - circleSize / 2,
+                                              width: circleSize,
+                                              height: circleSize))
+        circleView.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.5)
+        circleView.layer.cornerRadius = circleSize / 2
+        circleView.isUserInteractionEnabled = false
+        
+        self.view.addSubview(circleView)
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            circleView.alpha = 0
+            circleView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+        }) { _ in
+            circleView.removeFromSuperview()
+        }
+    }
 
     override func loadView() {
         // debugLog("AR: ARVC: loadView() was called.")
@@ -159,6 +182,7 @@ extension ARViewController {
                     Entity.loadAsync(named: modelSpec.fileName)
                         .sink(receiveCompletion: { _ in },
                               receiveValue: { entity in
+                                  entity.scale = modelSpec.scale
                                   newAnchor.addChild(entity)
 
                                   entity.availableAnimations.forEach {
@@ -187,85 +211,7 @@ extension ARViewController {
             }
         }
     }
-
-//    @objc private func tapped(_ gesture: UITapGestureRecognizer) {
-//        if gesture.state == .ended {
-//            let location = gesture.location(in: arView)
-//
-//            guard let query = arView.makeRaycastQuery(from: location,
-//                                                      allowing: .estimatedPlane,
-//                                                      alignment: .any) else {
-//                return
-//            }
-//
-//            let raycastResults = arView.session.raycast(query)
-//
-//            if let result = raycastResults.first {
-//                let anchor = AnchorEntity(raycastResult: result)
-//
-//                if arScene == nil {
-//                    // First tap: create the ARScene and anchor it
-//                    arView.scene.addAnchor(anchor)
-//                    arScene = ARScene(anchorEntity: anchor)
-//                    arScene?.setScale(sceneScale)
-//                    startFrameLoop()
-//                }
-//
-//                // Always place selected model if one is selected
-//                if let index = ModelSelection.shared.selectedIndex {
-//                    arScene?.loadModel(at: index)
-//                }
-//            }
-//        }
-//    }
-
-//    @objc private func tapped(_ gesture: UITapGestureRecognizer) {
-//        if gesture.state == .ended {
-//            let location = gesture.location(in: arView)
-//
-//            #if !targetEnvironment(simulator)
-//            if !ProcessInfo.processInfo.isiOSAppOnMac {
-//                // running on iOS or iPadOS
-//                guard let query = arView.makeRaycastQuery(from: location,
-//                                                          allowing: .estimatedPlane,
-//                                                          alignment: .any) else {
-//                    return
-//                }
-//                let raycastResults = arView.session.raycast(query)
-//                if let result = raycastResults.first {
-//
-//                    // [Note] result.anchor: ARAnchor? can not be casted to ARPlaneAnchor
-//                    // - if query's allowing is .existingPlaneInfinit, result.anchor will be ARPlaneAnchor
-//                    // - if query's allowing is .estimatedPlane, resutl.anchor will be nil
-//
-//                    let anchorEntity = AnchorEntity(raycastResult: result)
-//                    placeARScene(anchorEntity)
-//                } else {
-//                    // do nothing (no raycast result)
-//                }
-//            } else {
-//                // running on macOS
-//                if arScene == nil {
-//                    let anchorEntity = AnchorEntity(world: AppConfig.simModelTransform)
-//                    placeARScene(anchorEntity)
-//                } else {
-//                    // do nothing (already ARScene exists)
-//                }
-//            }
-//            #else
-//            // running in the Simulator
-//            if arScene == nil {
-//                let anchorEntity = AnchorEntity(world: AppConfig.simModelTransform)
-//                placeARScene(anchorEntity)
-//            } else {
-//                // do nothing (already ARScene exists)
-//            }
-//            #endif
-//        } else {
-//            // do nothing (the gesture is not ended yet)
-//        }
-//    }
-
+    
     private func placeARScene(_ anchorEntity: AnchorEntity) {
         if arScene != nil {
             removeARScene()
@@ -448,30 +394,6 @@ extension ARViewController: ARSessionDelegate {
             #endif
         }
     }
-
-    //    func session(_ session: ARSession, didUpdate frame: ARFrame) {
-    //        // You can get the camera's (device's) position in the virtual space
-    //        // from the transform property.
-    //        // The 4th column represents the position, (x, y, z, -).
-    //        let cameraTransform = frame.camera.transform
-    //        // The orientation of the camera, expressed as roll, pitch, and yaw values.
-    //        let cameraEulerAngles = frame.camera.eulerAngles // simd_float3
-    //    }
-
-    //    func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
-    //        // debugLog("AR: AR-DELEGATE: didAdd anchors: [ARAnchor] : \(anchors)")
-    //        // <AREnvironmentProbeAnchor> can be added for environmentTexturing
-    //    }
-
-    //    func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
-    //        // debugLog("AR: AR-DELEGATE: ARSessionDelegate:
-    //                     session(_:didUpdate) was called. \(anchors) were updated.")
-    //        // <AREnvironmentProbeAnchor> can be added for environmentTexturing
-    //    }
-
-    //    func session(_ session: ARSession, didRemove anchors: [ARAnchor]) {
-    //        // debugLog("AR: AR-DELEGATE: The session(_:didRemove) was called.  [ARAnchor] were removed.")
-    //    }
 }
 
 // MARK: - ARCoachingOverlayView Delegate

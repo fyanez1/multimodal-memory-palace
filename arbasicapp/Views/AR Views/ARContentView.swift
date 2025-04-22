@@ -47,6 +47,15 @@ struct ARContentView: View {
                     }
                     
                     HStack {
+                        Button("Guitar") {
+                            selectedModelIndex = 3
+                            ModelSelection.shared.selectedIndex = 3
+                        }
+                        .padding()
+                        .background(.red)
+                        .cornerRadius(8)
+                        .foregroundColor(.white)
+                        
                         Button("Car") {
                             selectedModelIndex = 2
                             ModelSelection.shared.selectedIndex = 2

@@ -25,6 +25,10 @@
 		BAFB9FE1296C2F2100F9165E /* robotSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BAFB9FDF296C2F2100F9165E /* robotSound.mp3 */; };
 		BAFB9FEA296C4A2600F9165E /* toy_car.usdz in Resources */ = {isa = PBXBuildFile; fileRef = BAFB9FE9296C4A2600F9165E /* toy_car.usdz */; };
 		BAFB9FEC296C4F4A00F9165E /* carSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BAFB9FEB296C4F4A00F9165E /* carSound.mp3 */; };
+		E354CF152DB721C900959AC4 /* Tung_Tung_Tung_Tung_Sahur.usdz in Resources */ = {isa = PBXBuildFile; fileRef = E354CF142DB721C900959AC4 /* Tung_Tung_Tung_Tung_Sahur.usdz */; };
+		E354CF172DB7242600959AC4 /* Los_Angeles_Lakers.usdz in Resources */ = {isa = PBXBuildFile; fileRef = E354CF162DB7242600959AC4 /* Los_Angeles_Lakers.usdz */; };
+		E354CF192DB7288500959AC4 /* Classic_guitar.usdz in Resources */ = {isa = PBXBuildFile; fileRef = E354CF182DB7288500959AC4 /* Classic_guitar.usdz */; };
+		E354CF1B2DB72CAA00959AC4 /* bossa-nova-eletric-guitar-loop-258055.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E354CF1A2DB72CAA00959AC4 /* bossa-nova-eletric-guitar-loop-258055.mp3 */; };
 		E378371C2DB5F2D800B7E478 /* LLM_calls.swift in Sources */ = {isa = PBXBuildFile; fileRef = E378371B2DB5F2C600B7E478 /* LLM_calls.swift */; };
 		E37837202DB6010A00B7E478 /* ModelSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E378371F2DB6010800B7E478 /* ModelSelection.swift */; };
 /* End PBXBuildFile section */
@@ -51,6 +55,10 @@
 		BAFB9FDF296C2F2100F9165E /* robotSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = robotSound.mp3; sourceTree = "<group>"; };
 		BAFB9FE9296C4A2600F9165E /* toy_car.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = toy_car.usdz; sourceTree = "<group>"; };
 		BAFB9FEB296C4F4A00F9165E /* carSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = carSound.mp3; sourceTree = "<group>"; };
+		E354CF142DB721C900959AC4 /* Tung_Tung_Tung_Tung_Sahur.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = Tung_Tung_Tung_Tung_Sahur.usdz; sourceTree = "<group>"; };
+		E354CF162DB7242600959AC4 /* Los_Angeles_Lakers.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = Los_Angeles_Lakers.usdz; sourceTree = "<group>"; };
+		E354CF182DB7288500959AC4 /* Classic_guitar.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = Classic_guitar.usdz; sourceTree = "<group>"; };
+		E354CF1A2DB72CAA00959AC4 /* bossa-nova-eletric-guitar-loop-258055.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "bossa-nova-eletric-guitar-loop-258055.mp3"; sourceTree = "<group>"; };
 		E378371B2DB5F2C600B7E478 /* LLM_calls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLM_calls.swift; sourceTree = "<group>"; };
 		E378371F2DB6010800B7E478 /* ModelSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSelection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -149,6 +157,9 @@
 			isa = PBXGroup;
 			children = (
 				E378371F2DB6010800B7E478 /* ModelSelection.swift */,
+				E354CF182DB7288500959AC4 /* Classic_guitar.usdz */,
+				E354CF162DB7242600959AC4 /* Los_Angeles_Lakers.usdz */,
+				E354CF142DB721C900959AC4 /* Tung_Tung_Tung_Tung_Sahur.usdz */,
 				BAFB9FD9296B9ED600F9165E /* toy_biplane.usdz */,
 				BAFB9FD7296B9ECE00F9165E /* toy_robot_vintage.usdz */,
 				BAFB9FE9296C4A2600F9165E /* toy_car.usdz */,
@@ -160,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				BAFB9FDE296C2F2100F9165E /* planeSound.mp3 */,
+				E354CF1A2DB72CAA00959AC4 /* bossa-nova-eletric-guitar-loop-258055.mp3 */,
 				BAFB9FDF296C2F2100F9165E /* robotSound.mp3 */,
 				BAFB9FEB296C4F4A00F9165E /* carSound.mp3 */,
 			);
@@ -237,10 +249,14 @@
 				BAFB9FBD296A74CB00F9165E /* Preview Assets.xcassets in Resources */,
 				BAFB9FEC296C4F4A00F9165E /* carSound.mp3 in Resources */,
 				BAFB9FBA296A74CB00F9165E /* Assets.xcassets in Resources */,
+				E354CF1B2DB72CAA00959AC4 /* bossa-nova-eletric-guitar-loop-258055.mp3 in Resources */,
+				E354CF152DB721C900959AC4 /* Tung_Tung_Tung_Tung_Sahur.usdz in Resources */,
+				E354CF192DB7288500959AC4 /* Classic_guitar.usdz in Resources */,
 				BAFB9FEA296C4A2600F9165E /* toy_car.usdz in Resources */,
 				BAFB9FDA296B9ED600F9165E /* toy_biplane.usdz in Resources */,
 				BAFB9FE0296C2F2100F9165E /* planeSound.mp3 in Resources */,
 				BAFB9FD8296B9ECE00F9165E /* toy_robot_vintage.usdz in Resources */,
+				E354CF172DB7242600959AC4 /* Los_Angeles_Lakers.usdz in Resources */,
 				BAFB9FE1296C2F2100F9165E /* robotSound.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
