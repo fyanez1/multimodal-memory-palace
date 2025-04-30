@@ -175,39 +175,6 @@ extension ARViewController {
                     startFrameLoop()
                 }
 
-                // Place model at this new anchor
-//                if let index = ModelSelection.shared.selectedIndex {
-//                    let modelSpec = ARSceneSpec.models[index]
-//
-//                    Entity.loadAsync(named: modelSpec.fileName)
-//                        .sink(receiveCompletion: { _ in },
-//                              receiveValue: { entity in
-//                                  entity.scale = modelSpec.scale
-//                                  newAnchor.addChild(entity)
-//
-//                                  entity.availableAnimations.forEach {
-//                                      entity.playAnimation($0.repeat(), transitionDuration: 0, startsPaused: false)
-//                                  }
-//
-//                                  if let soundFileName = modelSpec.soundFileName {
-//                                      AudioFileResource.loadAsync(named: soundFileName,
-//                                                                  inputMode: .spatial,
-//                                                                  loadingStrategy: .preload,
-//                                                                  shouldLoop: true)
-//                                          .sink(receiveCompletion: { _ in },
-//                                                receiveValue: { audio in
-//                                                    let controller = entity.prepareAudio(audio)
-//                                                    controller.gain = -6
-//                                                    controller.play()
-//                                                })
-//                                          .store(in: &self.arScene!.loadingSubscriptions)
-//                                  }
-//
-//                                  let animatingModel = AnimatingModel(entity: entity, animationParam: modelSpec.animationParam)
-//                                  self.arScene?.addAnimatingModel(animatingModel)
-//                              })
-//                        .store(in: &self.arScene!.loadingSubscriptions)
-//                }
                 if let index = ModelSelection.shared.selectedIndex {
                     if index == 999 {
                         // Load generated image from file and create a plane

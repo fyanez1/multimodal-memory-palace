@@ -52,42 +52,6 @@ struct ARContentView: View {
                     }
                     
                     HStack {
-                        Button("Guitar") {
-                            selectedModelIndex = 3
-                            ModelSelection.shared.selectedIndex = 3
-                        }
-                        .padding()
-                        .background(.red)
-                        .cornerRadius(8)
-                        .foregroundColor(.white)
-                        
-                        Button("Car") {
-                            selectedModelIndex = 2
-                            ModelSelection.shared.selectedIndex = 2
-                        }
-                        .padding()
-                        .background(.blue)
-                        .cornerRadius(8)
-                        .foregroundColor(.white)
-
-                        Button("Plane") {
-                            selectedModelIndex = 1
-                            ModelSelection.shared.selectedIndex = 1
-                        }
-                        .padding()
-                        .background(.green)
-                        .cornerRadius(8)
-                        .foregroundColor(.white)
-
-                        Button("Robot") {
-                            selectedModelIndex = 0
-                            ModelSelection.shared.selectedIndex = 0
-                        }
-                        .padding()
-                        .background(.red)
-                        .cornerRadius(8)
-                        .foregroundColor(.white)
-                        
                         Button("Generate Image") {
                             generateImage()
                             selectedModelIndex = 999
@@ -99,22 +63,14 @@ struct ARContentView: View {
                         .foregroundColor(.white)
 
                     }
-                    if let image = generatedImage {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 200)
-                            .cornerRadius(12)
-                            .padding()
-                    }
                 }
                 .padding(40)
             }
             .onReceive(NotificationCenter.default.publisher(for: .imageGenerated)) { notif in
-                if let url = notif.object as? URL,
-                   let imgData = try? Data(contentsOf: url) {
-                    generatedImage = UIImage(data: imgData)
-                }
+//                if let url = notif.object as? URL,
+//                   let imgData = try? Data(contentsOf: url) {
+//                    generatedImage = UIImage(data: imgData)
+//                }
             }
     }
 
