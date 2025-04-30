@@ -176,38 +176,56 @@ extension ARViewController {
                 }
 
                 // Place model at this new anchor
+//                if let index = ModelSelection.shared.selectedIndex {
+//                    let modelSpec = ARSceneSpec.models[index]
+//
+//                    Entity.loadAsync(named: modelSpec.fileName)
+//                        .sink(receiveCompletion: { _ in },
+//                              receiveValue: { entity in
+//                                  entity.scale = modelSpec.scale
+//                                  newAnchor.addChild(entity)
+//
+//                                  entity.availableAnimations.forEach {
+//                                      entity.playAnimation($0.repeat(), transitionDuration: 0, startsPaused: false)
+//                                  }
+//
+//                                  if let soundFileName = modelSpec.soundFileName {
+//                                      AudioFileResource.loadAsync(named: soundFileName,
+//                                                                  inputMode: .spatial,
+//                                                                  loadingStrategy: .preload,
+//                                                                  shouldLoop: true)
+//                                          .sink(receiveCompletion: { _ in },
+//                                                receiveValue: { audio in
+//                                                    let controller = entity.prepareAudio(audio)
+//                                                    controller.gain = -6
+//                                                    controller.play()
+//                                                })
+//                                          .store(in: &self.arScene!.loadingSubscriptions)
+//                                  }
+//
+//                                  let animatingModel = AnimatingModel(entity: entity, animationParam: modelSpec.animationParam)
+//                                  self.arScene?.addAnimatingModel(animatingModel)
+//                              })
+//                        .store(in: &self.arScene!.loadingSubscriptions)
+//                }
                 if let index = ModelSelection.shared.selectedIndex {
-                    let modelSpec = ARSceneSpec.models[index]
+                    if index == 999 {
+                        // Load generated image from file and create a plane
+                        let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+                        let fileURL = docsDir.appendingPathComponent("generated.png")
+                        if let image = UIImage(contentsOfFile: fileURL.path) {
+                            let textureResource = try? TextureResource.load(contentsOf: fileURL)
+                            var material = UnlitMaterial()
+                            material.baseColor = textureResource != nil ? MaterialColorParameter.texture(textureResource!) : .color(.white)
 
-                    Entity.loadAsync(named: modelSpec.fileName)
-                        .sink(receiveCompletion: { _ in },
-                              receiveValue: { entity in
-                                  entity.scale = modelSpec.scale
-                                  newAnchor.addChild(entity)
-
-                                  entity.availableAnimations.forEach {
-                                      entity.playAnimation($0.repeat(), transitionDuration: 0, startsPaused: false)
-                                  }
-
-                                  if let soundFileName = modelSpec.soundFileName {
-                                      AudioFileResource.loadAsync(named: soundFileName,
-                                                                  inputMode: .spatial,
-                                                                  loadingStrategy: .preload,
-                                                                  shouldLoop: true)
-                                          .sink(receiveCompletion: { _ in },
-                                                receiveValue: { audio in
-                                                    let controller = entity.prepareAudio(audio)
-                                                    controller.gain = -6
-                                                    controller.play()
-                                                })
-                                          .store(in: &self.arScene!.loadingSubscriptions)
-                                  }
-
-                                  let animatingModel = AnimatingModel(entity: entity, animationParam: modelSpec.animationParam)
-                                  self.arScene?.addAnimatingModel(animatingModel)
-                              })
-                        .store(in: &self.arScene!.loadingSubscriptions)
+                            let planeMesh = MeshResource.generatePlane(width: 0.3, height: 0.3)
+                            let entity = ModelEntity(mesh: planeMesh, materials: [material])
+                            entity.generateCollisionShapes(recursive: true)
+                            newAnchor.addChild(entity)
+                        }
+                    }
                 }
+
             }
         }
     }

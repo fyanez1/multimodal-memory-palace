@@ -90,6 +90,8 @@ struct ARContentView: View {
                         
                         Button("Generate Image") {
                             generateImage()
+                            selectedModelIndex = 999
+                            ModelSelection.shared.selectedIndex = 999
                         }
                         .padding()
                         .background(.purple)
