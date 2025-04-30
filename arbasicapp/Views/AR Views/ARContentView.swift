@@ -16,6 +16,8 @@ struct ARContentView: View {
     @State private var sceneScaleIndex = 1
     @State private var selectedModelIndex: Int? = nil
     @State private var generatedImage: UIImage? = nil
+    @State private var generationProgress: String = ""
+    @State private var promptText: String = ""
 
     private var sceneScale: SIMD3<Float> {
         AppConfig.sceneScales[sceneScaleIndex]
@@ -51,7 +53,17 @@ struct ARContentView: View {
                         })
                     }
                     
+                    if !generationProgress.isEmpty {
+                        Text(generationProgress)
+                            .foregroundColor(.white)
+                            .padding(.top, 10)
+                    }
+                    
                     HStack {
+                        TextField("Enter prompt", text: $promptText)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding()
+
                         Button("Generate Image") {
                             generateImage()
                             selectedModelIndex = 999
@@ -61,8 +73,8 @@ struct ARContentView: View {
                         .background(.purple)
                         .cornerRadius(8)
                         .foregroundColor(.white)
-
                     }
+
                 }
                 .padding(40)
             }
@@ -79,27 +91,57 @@ struct ARContentView: View {
                             ? 0 : sceneScaleIndex + 1
     }
     
+//    func generateImage() {
+//        guard let url = URL(string: "http://10.29.214.204:8080/generate-image") else { return }
+//
+//        
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "POST"
+//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//
+//        let json: [String: String] = ["prompt": "apple"]
+//        request.httpBody = try? JSONSerialization.data(withJSONObject: json)
+//        
+//        
+//        // new code
+//        let config = URLSessionConfiguration.default
+//        config.timeoutIntervalForRequest = 300  // 5 minutes
+//        config.timeoutIntervalForResource = 300
+//        let session = URLSession(configuration: config)
+//        //
+//
+////        URLSession.shared.dataTask(with: request) { data, response, error in
+//        session.dataTask(with: request) { data, response, error in
+//            if let data = data {
+//                let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+//                let fileURL = docsDir.appendingPathComponent("generated.png")
+//                try? data.write(to: fileURL)
+//
+//                DispatchQueue.main.async {
+//                    // Store it in UserDefaults or an @State variable to show in the UI
+//                    // Here we notify via NotificationCenter (alternative: use ObservableObject)
+//                    NotificationCenter.default.post(name: .imageGenerated, object: fileURL)
+//                }
+//            }
+//        }.resume()
+//    }
     func generateImage() {
-//        guard let url = URL(string: "http://18.29.252.208:8080/generate-image") else { return }
         guard let url = URL(string: "http://10.29.214.204:8080/generate-image") else { return }
 
-        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        let json: [String: String] = ["prompt": "apple"]
+        let json: [String: String] = ["prompt": promptText]
         request.httpBody = try? JSONSerialization.data(withJSONObject: json)
-        
-        
-        // new code
+
+        generationProgress = "Starting..."
+
         let config = URLSessionConfiguration.default
-        config.timeoutIntervalForRequest = 300  // 5 minutes
+        config.timeoutIntervalForRequest = 300
         config.timeoutIntervalForResource = 300
         let session = URLSession(configuration: config)
-        //
 
-//        URLSession.shared.dataTask(with: request) { data, response, error in
         session.dataTask(with: request) { data, response, error in
             if let data = data {
                 let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -107,13 +149,19 @@ struct ARContentView: View {
                 try? data.write(to: fileURL)
 
                 DispatchQueue.main.async {
-                    // Store it in UserDefaults or an @State variable to show in the UI
-                    // Here we notify via NotificationCenter (alternative: use ObservableObject)
+                    generationProgress = "Done!"
                     NotificationCenter.default.post(name: .imageGenerated, object: fileURL)
+                }
+            } else if let error = error {
+                DispatchQueue.main.async {
+                    generationProgress = "Error: \(error.localizedDescription)"
                 }
             }
         }.resume()
+
+        generationProgress = "Generating..."
     }
+
 
 }
 

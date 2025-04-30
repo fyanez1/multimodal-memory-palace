@@ -183,8 +183,7 @@ extension ARViewController {
                         if let image = UIImage(contentsOfFile: fileURL.path) {
                             let textureResource = try? TextureResource.load(contentsOf: fileURL)
                             var material = UnlitMaterial()
-                            material.baseColor = textureResource != nil ? MaterialColorParameter.texture(textureResource!) : .color(.white)
-
+                            material.baseColor = textureResource != nil ? MaterialColorParameter.texture(textureResource!) : .color(.white)                            
                             let planeMesh = MeshResource.generatePlane(width: 0.3, height: 0.3)
                             let entity = ModelEntity(mesh: planeMesh, materials: [material])
                             entity.generateCollisionShapes(recursive: true)
