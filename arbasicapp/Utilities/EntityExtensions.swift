@@ -33,18 +33,19 @@ extension Entity {
                     let resource = try? AudioFileResource.load(contentsOf: audioURL,
                                                                inputMode: .spatial,
                                                                loadingStrategy: .preload,
-                                                               shouldLoop: false)
+                                                               shouldLoop: true)  // ✅ Enable looping
                     if let resource = resource {
                         let audioEntity = ModelEntity()
-                        audioEntity.position = [0, 0, 0]  // Position relative to image
+                        audioEntity.position = [0, 0, 0]  // Local position relative to image entity
 
                         let controller = audioEntity.prepareAudio(resource)
                         controller.gain = -6
                         controller.play()
 
-                        entity.addChild(audioEntity) // Attach audio to the image entity
+                        entity.addChild(audioEntity)  // Attach audio to the image entity
                     }
                 }
+
 
             }
         }
