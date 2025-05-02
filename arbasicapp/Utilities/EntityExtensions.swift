@@ -28,7 +28,24 @@ extension Entity {
             // If this is the entity that was tapped
             if entity.id == self.id {
                 // Play the audio
-                AudioManager.shared.playAudio()
+//                AudioManager.shared.playAudio()
+                if let audioURL = AudioManager.shared.audioURL {
+                    let resource = try? AudioFileResource.load(contentsOf: audioURL,
+                                                               inputMode: .spatial,
+                                                               loadingStrategy: .preload,
+                                                               shouldLoop: false)
+                    if let resource = resource {
+                        let audioEntity = ModelEntity()
+                        audioEntity.position = [0, 0, 0]  // Position relative to image
+
+                        let controller = audioEntity.prepareAudio(resource)
+                        controller.gain = -6
+                        controller.play()
+
+                        entity.addChild(audioEntity) // Attach audio to the image entity
+                    }
+                }
+
             }
         }
     }

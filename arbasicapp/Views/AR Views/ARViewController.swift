@@ -204,7 +204,24 @@ extension ARViewController {
             // First check if we're tapping on an existing entity (to play audio)
             if let entity = arView.entity(at: location) as? ModelEntity {
                 // Play associated audio
-                AudioManager.shared.playAudio()
+//                AudioManager.shared.playAudio()
+                if let audioURL = AudioManager.shared.audioURL {
+                    let resource = try? AudioFileResource.load(contentsOf: audioURL,
+                                                               inputMode: .spatial,
+                                                               loadingStrategy: .preload,
+                                                               shouldLoop: false)
+                    if let resource = resource {
+                        let audioEntity = ModelEntity()
+                        audioEntity.position = [0, 0, 0]  // Position relative to image
+
+                        let controller = audioEntity.prepareAudio(resource)
+                        controller.gain = -6
+                        controller.play()
+
+                        entity.addChild(audioEntity) // Attach audio to the image entity
+                    }
+                }
+
                 return
             }
 
@@ -255,7 +272,26 @@ extension ARViewController {
                             newAnchor.addChild(entity)
                             
                             // Play the audio when placing the image
-                            AudioManager.shared.playAudio()
+//                            AudioManager.shared.playAudio()
+                            if let audioURL = AudioManager.shared.audioURL {
+                                let resource = try? AudioFileResource.load(contentsOf: audioURL,
+                                                                           inputMode: .spatial,
+                                                                           loadingStrategy: .preload,
+                                                                           shouldLoop: false)
+                                if let resource = resource {
+                                    let audioEntity = ModelEntity()
+                                    audioEntity.position = [0, 0, 0]  // Position relative to image
+
+                                    let controller = audioEntity.prepareAudio(resource)
+                                    controller.gain = -6
+                                    controller.play()
+
+                                    entity.addChild(audioEntity) // Attach audio to the image entity
+                                }
+                            }
+
+
+                            
                             
                             // Add visual feedback for audio playback
                             let audioFeedback = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 40))

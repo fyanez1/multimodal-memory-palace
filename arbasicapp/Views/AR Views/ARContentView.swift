@@ -383,23 +383,29 @@ struct ARContentView: View {
 }
 
 // Singleton to manage the audio URL
+//class AudioManager {
+//    static let shared = AudioManager()
+//    var audioURL: URL?
+//    var audioPlayer: AVAudioPlayer?
+//    
+//    func playAudio() {
+//        guard let url = audioURL else { return }
+//        
+//        do {
+//            audioPlayer = try AVAudioPlayer(contentsOf: url)
+//            audioPlayer?.prepareToPlay()
+//            audioPlayer?.play()
+//        } catch {
+//            print("Could not play audio: \(error.localizedDescription)")
+//        }
+//    }
+//}
+
 class AudioManager {
     static let shared = AudioManager()
     var audioURL: URL?
-    var audioPlayer: AVAudioPlayer?
-    
-    func playAudio() {
-        guard let url = audioURL else { return }
-        
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.prepareToPlay()
-            audioPlayer?.play()
-        } catch {
-            print("Could not play audio: \(error.localizedDescription)")
-        }
-    }
 }
+
 
 struct ARContentView_Previews: PreviewProvider {
     static var previews: some View {
