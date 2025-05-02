@@ -9,6 +9,7 @@ import UIKit
 import ARKit
 import RealityKit
 import Combine
+import AVFoundation
 
 // swiftlint:disable file_length
 class ARViewController: UIViewController {
@@ -151,10 +152,63 @@ extension ARViewController {
 // MARK: - Tap gesture handling
 
 extension ARViewController {
+//    @objc private func tapped(_ gesture: UITapGestureRecognizer) {
+//        if gesture.state == .ended {
+//            let location = gesture.location(in: arView)
+//
+//            guard let query = arView.makeRaycastQuery(from: location,
+//                                                      allowing: .estimatedPlane,
+//                                                      alignment: .any) else {
+//                return
+//            }
+//
+//            let raycastResults = arView.session.raycast(query)
+//
+//            if let result = raycastResults.first {
+//                // Each tap creates a new anchor where the user touched
+//                let newAnchor = AnchorEntity(raycastResult: result)
+//                arView.scene.addAnchor(newAnchor)
+//
+//                // If this is the first tap, set up the scene and frame loop
+//                if arScene == nil {
+//                    arScene = ARScene(anchorEntity: newAnchor)
+//                    arScene?.setScale(sceneScale)
+//                    startFrameLoop()
+//                }
+//
+//                if let index = ModelSelection.shared.selectedIndex {
+//                    if index == 999 {
+//                        // Load generated image from file and create a plane
+//                        let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+//                        let fileURL = docsDir.appendingPathComponent("generated.png")
+//                        if let image = UIImage(contentsOfFile: fileURL.path) {
+//                            let textureResource = try? TextureResource.load(contentsOf: fileURL)
+//                            var material = UnlitMaterial()
+//                            material.baseColor = textureResource != nil ? MaterialColorParameter.texture(textureResource!) : .color(.white)                            
+//                            let planeMesh = MeshResource.generatePlane(width: 0.3, height: 0.3)
+//                            let entity = ModelEntity(mesh: planeMesh, materials: [material])
+//                            entity.generateCollisionShapes(recursive: true)
+//                            newAnchor.addChild(entity)
+//                        }
+//                    }
+//                }
+//
+//            }
+//        }
+//    }
+    
     @objc private func tapped(_ gesture: UITapGestureRecognizer) {
         if gesture.state == .ended {
             let location = gesture.location(in: arView)
+            
+            // First check if we're tapping on an existing entity (to play audio)
+            if let entity = arView.entity(at: location) as? ModelEntity {
+                // Play associated audio
+                AudioManager.shared.playAudio()
+                return
+            }
 
+            // If not tapping an entity, try to place a new one
             guard let query = arView.makeRaycastQuery(from: location,
                                                       allowing: .estimatedPlane,
                                                       alignment: .any) else {
@@ -179,19 +233,50 @@ extension ARViewController {
                     if index == 999 {
                         // Load generated image from file and create a plane
                         let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-                        let fileURL = docsDir.appendingPathComponent("generated.png")
-                        if let image = UIImage(contentsOfFile: fileURL.path) {
-                            let textureResource = try? TextureResource.load(contentsOf: fileURL)
+                        let imageURL = docsDir.appendingPathComponent("generated.png")
+                        
+                        if let image = UIImage(contentsOfFile: imageURL.path) {
+                            let textureResource = try? TextureResource.load(contentsOf: imageURL)
                             var material = UnlitMaterial()
-                            material.baseColor = textureResource != nil ? MaterialColorParameter.texture(textureResource!) : .color(.white)                            
+                            material.baseColor = textureResource != nil ? MaterialColorParameter.texture(textureResource!) : .color(.white)
                             let planeMesh = MeshResource.generatePlane(width: 0.3, height: 0.3)
                             let entity = ModelEntity(mesh: planeMesh, materials: [material])
+                            
+                            // Add collision for interaction
                             entity.generateCollisionShapes(recursive: true)
+                            
+                            // Add a visual indicator for tap interaction
+                            let sphereIndicator = ModelEntity(mesh: .generateSphere(radius: 0.02),
+                                                             materials: [SimpleMaterial(color: .blue, isMetallic: true)])
+                            sphereIndicator.position = [0.1, 0.05, 0]
+                            entity.addChild(sphereIndicator)
+                            
+                            // Add to the anchor
                             newAnchor.addChild(entity)
+                            
+                            // Play the audio when placing the image
+                            AudioManager.shared.playAudio()
+                            
+                            // Add visual feedback for audio playback
+                            let audioFeedback = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
+                            audioFeedback.text = "🔊 Playing audio..."
+                            audioFeedback.textAlignment = .center
+                            audioFeedback.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+                            audioFeedback.textColor = .white
+                            audioFeedback.layer.cornerRadius = 8
+                            audioFeedback.clipsToBounds = true
+                            audioFeedback.center = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.height - 100)
+                            self.view.addSubview(audioFeedback)
+                            
+                            // Fade out after a few seconds
+                            UIView.animate(withDuration: 3.0, delay: 2.0, options: .curveEaseOut, animations: {
+                                audioFeedback.alpha = 0
+                            }, completion: { _ in
+                                audioFeedback.removeFromSuperview()
+                            })
                         }
                     }
                 }
-
             }
         }
     }

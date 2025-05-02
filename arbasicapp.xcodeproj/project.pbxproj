@@ -31,6 +31,7 @@
 		E354CF1B2DB72CAA00959AC4 /* bossa-nova-eletric-guitar-loop-258055.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E354CF1A2DB72CAA00959AC4 /* bossa-nova-eletric-guitar-loop-258055.mp3 */; };
 		E378371C2DB5F2D800B7E478 /* LLM_calls.swift in Sources */ = {isa = PBXBuildFile; fileRef = E378371B2DB5F2C600B7E478 /* LLM_calls.swift */; };
 		E37837202DB6010A00B7E478 /* ModelSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E378371F2DB6010800B7E478 /* ModelSelection.swift */; };
+		E38EFAE52DC45F7D001CFFB2 /* EntityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38EFAE42DC45F79001CFFB2 /* EntityExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		E354CF1A2DB72CAA00959AC4 /* bossa-nova-eletric-guitar-loop-258055.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "bossa-nova-eletric-guitar-loop-258055.mp3"; sourceTree = "<group>"; };
 		E378371B2DB5F2C600B7E478 /* LLM_calls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLM_calls.swift; sourceTree = "<group>"; };
 		E378371F2DB6010800B7E478 /* ModelSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSelection.swift; sourceTree = "<group>"; };
+		E38EFAE42DC45F79001CFFB2 /* EntityExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 		BAFB9FCA296A828300F9165E /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				E38EFAE42DC45F79001CFFB2 /* EntityExtensions.swift */,
 				E378371B2DB5F2C600B7E478 /* LLM_calls.swift */,
 				BAFB9FCB296A82A600F9165E /* Log.swift */,
 			);
@@ -300,6 +303,7 @@
 				BAFB9FCE296A835A00F9165E /* ARContainerView.swift in Sources */,
 				BAFB9FD1296ACB2200F9165E /* ARScene.swift in Sources */,
 				BAFB9FD3296AD49300F9165E /* ARSceneSpec.swift in Sources */,
+				E38EFAE52DC45F7D001CFFB2 /* EntityExtensions.swift in Sources */,
 				BAFB9FD5296B991E00F9165E /* ARContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
