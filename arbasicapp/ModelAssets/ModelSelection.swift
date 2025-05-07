@@ -1,6 +1,5 @@
 //
 //  ModelSelection.swift
-//  arbasicapp
 //
 //  Created by Fabian Yanez-Laguna on 4/21/25.
 //

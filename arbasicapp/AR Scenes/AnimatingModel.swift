@@ -1,8 +1,6 @@
 //
 //  AnimatingModel.swift
-//  arbasicapp
 //
-//  Created by Yasuhito Nagatomo on 2023/01/11.
 //
 
 import RealityKit

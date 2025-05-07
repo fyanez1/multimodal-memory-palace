@@ -1,8 +1,6 @@
 //
 //  ARScene.swift
-//  arbasicapp
 //
-//  Created by Yasuhito Nagatomo on 2023/01/08.
 //
 
 import RealityKit
@@ -72,14 +70,6 @@ final class ARScene {
             }
         }
     }
-
-    //    func show() {
-    //        anchorEntity.isEnabled = true
-    //    }
-
-    //    func hide() {
-    //        anchorEntity.isEnabled = false
-    //    }
 
     func updateFrameAnimation(deltaTime: Double) {
         accumulatedTime += deltaTime

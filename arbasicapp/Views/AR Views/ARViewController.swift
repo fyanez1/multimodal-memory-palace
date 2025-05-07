@@ -1,8 +1,6 @@
 //
 //  ARViewController.swift
-//  arbasicapp
 //
-//  Created by Yasuhito Nagatomo on 2023/01/08.
 //
 
 import UIKit
@@ -152,51 +150,6 @@ extension ARViewController {
 // MARK: - Tap gesture handling
 
 extension ARViewController {
-//    @objc private func tapped(_ gesture: UITapGestureRecognizer) {
-//        if gesture.state == .ended {
-//            let location = gesture.location(in: arView)
-//
-//            guard let query = arView.makeRaycastQuery(from: location,
-//                                                      allowing: .estimatedPlane,
-//                                                      alignment: .any) else {
-//                return
-//            }
-//
-//            let raycastResults = arView.session.raycast(query)
-//
-//            if let result = raycastResults.first {
-//                // Each tap creates a new anchor where the user touched
-//                let newAnchor = AnchorEntity(raycastResult: result)
-//                arView.scene.addAnchor(newAnchor)
-//
-//                // If this is the first tap, set up the scene and frame loop
-//                if arScene == nil {
-//                    arScene = ARScene(anchorEntity: newAnchor)
-//                    arScene?.setScale(sceneScale)
-//                    startFrameLoop()
-//                }
-//
-//                if let index = ModelSelection.shared.selectedIndex {
-//                    if index == 999 {
-//                        // Load generated image from file and create a plane
-//                        let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-//                        let fileURL = docsDir.appendingPathComponent("generated.png")
-//                        if let image = UIImage(contentsOfFile: fileURL.path) {
-//                            let textureResource = try? TextureResource.load(contentsOf: fileURL)
-//                            var material = UnlitMaterial()
-//                            material.baseColor = textureResource != nil ? MaterialColorParameter.texture(textureResource!) : .color(.white)                            
-//                            let planeMesh = MeshResource.generatePlane(width: 0.3, height: 0.3)
-//                            let entity = ModelEntity(mesh: planeMesh, materials: [material])
-//                            entity.generateCollisionShapes(recursive: true)
-//                            newAnchor.addChild(entity)
-//                        }
-//                    }
-//                }
-//
-//            }
-//        }
-//    }
-    
     @objc private func tapped(_ gesture: UITapGestureRecognizer) {
         if gesture.state == .ended {
             let location = gesture.location(in: arView)
