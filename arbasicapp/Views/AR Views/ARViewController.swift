@@ -414,46 +414,46 @@ extension ARViewController: ARSessionDelegate {
             self.present(alert, animated: true, completion: nil)
         }
     }
-
-    func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
-        switch camera.trackingState {
-        case .notAvailable:
-            // debugLog("AR: ARSD: Camera state: not available")
-            #if DEBUG
-            arSessionStateLabel.text = "Camera state: Not available"
-            #endif
-        case .normal:
-            // debugLog("AR: ARSD: Camera state: normal")
-            #if DEBUG
-            arSessionStateLabel.text = "Camera state: Normal"
-            #endif
-        case .limited(.initializing):
-            // debugLog("AR: ARSD: Camera state: Limited(Initializing)")
-            #if DEBUG
-            arSessionStateLabel.text = "Camera state: Limited(Initializing)"
-            #endif
-        case .limited(.relocalizing):
-            // debugLog("AR: ARSD: Camera state: Limited(Relocalizing)")
-            #if DEBUG
-            arSessionStateLabel.text = "Camera state: Limited(Relocalizing)"
-            #endif
-        case .limited(.excessiveMotion):
-            // debugLog("AR: ARSD: Camera state: Limited(ExcessiveMotion)")
-            #if DEBUG
-            arSessionStateLabel.text = "Camera state: Limited(ExcessiveMotion)"
-            #endif
-        case .limited(.insufficientFeatures):
-            // debugLog("AR: ARSD: Camera state: Limited(InsufficientFeatures)")
-            #if DEBUG
-            arSessionStateLabel.text = "Camera state: Limited(InsufficientFeatures)"
-            #endif
-        default:
-            // debugLog("AR: ARSD: Camera state: unknown)")
-            #if DEBUG
-            arSessionStateLabel.text = "Camera state: Unknown"
-            #endif
-        }
-    }
+//
+//    func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
+//        switch camera.trackingState {
+//        case .notAvailable:
+//            // debugLog("AR: ARSD: Camera state: not available")
+//            #if DEBUG
+//            arSessionStateLabel.text = "Camera state: Not available"
+//            #endif
+//        case .normal:
+//            // debugLog("AR: ARSD: Camera state: normal")
+//            #if DEBUG
+//            arSessionStateLabel.text = "Camera state: Normal"
+//            #endif
+//        case .limited(.initializing):
+//            // debugLog("AR: ARSD: Camera state: Limited(Initializing)")
+//            #if DEBUG
+//            arSessionStateLabel.text = "Camera state: Limited(Initializing)"
+//            #endif
+//        case .limited(.relocalizing):
+//            // debugLog("AR: ARSD: Camera state: Limited(Relocalizing)")
+//            #if DEBUG
+//            arSessionStateLabel.text = "Camera state: Limited(Relocalizing)"
+//            #endif
+//        case .limited(.excessiveMotion):
+//            // debugLog("AR: ARSD: Camera state: Limited(ExcessiveMotion)")
+//            #if DEBUG
+//            arSessionStateLabel.text = "Camera state: Limited(ExcessiveMotion)"
+//            #endif
+//        case .limited(.insufficientFeatures):
+//            // debugLog("AR: ARSD: Camera state: Limited(InsufficientFeatures)")
+//            #if DEBUG
+//            arSessionStateLabel.text = "Camera state: Limited(InsufficientFeatures)"
+//            #endif
+//        default:
+//            // debugLog("AR: ARSD: Camera state: unknown)")
+//            #if DEBUG
+//            arSessionStateLabel.text = "Camera state: Unknown"
+//            #endif
+//        }
+//    }
 }
 
 // MARK: - ARCoachingOverlayView Delegate
